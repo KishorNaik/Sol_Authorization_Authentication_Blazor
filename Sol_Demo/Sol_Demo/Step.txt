@@ -1,0 +1,77 @@
+﻿Step 1:
+Create a UserModel class inside the Models folder. [Check Source Code]
+
+Step 2:
+Create a UserLoginService class inside the Service folder. [Check Source Code]
+	2.1 Register UserLoginService class in ConfigureService Method at StartUp.cs file.
+	
+	   services.AddTransient<IUserLoginService, UserLoginSevice>();
+
+Step 3:
+Add following middleware in Configure Method at StartUp.cs file.
+
+			app.UseAuthentication();
+            app.UseAuthorization();
+
+
+Step 4:
+Download Blazored.SessionStorage package.
+    1. Register Di in Configure Method
+
+	services.AddBlazoredSessionStorage();
+
+	2. Go to _Host.cshtml file change the render-mode component from ServerPrerendered to Server
+	<app>
+        <component type="typeof(App)" render-mode="Server" />
+    </app>
+
+Step 5:
+Create a CustomAuthenticationStateProvider class in Data folder. [Check Source Code]
+	Register Di in ConfigureService method at StartUp.cs
+
+	 services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+
+Step 6:
+Go to App.Razor file [Check Source Code]
+
+
+Step 7:
+Create a Login Page inside the Page folder. [Check Source Code]
+
+Step 8:
+Go to MainLayout.razor file and call the Login Page. [Check Source Code]
+
+Step 9:
+Now decorate Authorize Attribute on Counter.razor and FetchData.Razor.
+
+
+Make Login.razor page as a StartUp Page with Login Layout.
+
+Step 1:
+Go to Index.razor page and change default page route from "/" to "/index".
+Go to NavMenu.razor page change Home url from "/" to "/index"
+
+Step 2:
+Go to Login.razor page and add another page route "/login";
+	Go to OnLogin Method and change the following code.
+
+	from
+	NavigationM.NavigateTo("/");
+	to
+	NavigationM.NavigateTo("/index");
+
+Step 3:
+Make LoginLayout.razor layout in Shared folder. [Check Source Code]
+
+Step 4:
+Go to Login.razor page and decorate @Layout LoginLayout
+
+
+https://www.youtube.com/watch?v=BmAnSNfFGsc&list=PL4WEkbdagHIR0RBe_P4bai64UDqZEbQap&index=12
+
+
+
+
+
+	
+

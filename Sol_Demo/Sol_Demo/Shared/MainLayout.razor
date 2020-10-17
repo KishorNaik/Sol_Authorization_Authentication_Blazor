@@ -1,0 +1,37 @@
+﻿@inherits LayoutComponentBase
+
+@using Sol_Demo.Data
+
+@inject AuthenticationStateProvider AuthSp
+
+<div class="sidebar">
+    <NavMenu />
+</div>
+
+<div class="main">
+    <div class="top-row px-4">
+        @*<a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>*@
+
+        <AuthorizeView>
+            <Authorized>
+                <a href="/login" @onclick="this.Logout">Logout</a>
+            </Authorized>
+            <NotAuthorized>
+                <a href="/login">Login</a>
+            </NotAuthorized>
+        </AuthorizeView>
+    </div>
+
+    <div class="content px-4">
+        @Body
+    </div>
+</div>
+
+@code{
+
+    private void Logout()
+    {
+        ((CustomAuthenticationStateProvider)this.AuthSp).MarkUserAsLogout();
+    }
+
+}

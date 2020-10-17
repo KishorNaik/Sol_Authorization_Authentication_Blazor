@@ -1,0 +1,48 @@
+﻿@layout LoginLayout
+@page "/"
+@page "/login"
+
+<EditForm Model="this.UserM" Context="formContext">
+
+    <DataAnnotationsValidator />
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-md-6">
+            </div>
+            <div class="col-sm-6 col-md-6">
+                <div class="row">
+                    <div class="col-sm-4 col-md-6">
+                        <div class="form-group">
+                            <label id="txtEmailId">Email Id</label>
+                            <input id="txtEmailId" type="text" class="form-control" @bind-value="this.UserM.EmailId" />
+                            <ValidationMessage For="@(()=> this.UserM.EmailId)"></ValidationMessage>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 col-md-6">
+                        <div class="form-group">
+                            <label id="txtPassword">Password</label>
+                            <input id="txtPassword" type="password" class="form-control" @bind-value="this.UserM.Password" />
+                            <ValidationMessage For="@(()=> this.UserM.Password)"></ValidationMessage>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 col-md-6">
+                        <button class="btn btn-primary" @onclick="@(()=> this.OnLogIn(formContext))">Log In</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 col-md-6">
+                        @if (this.ErrorMessage != null)
+                        {
+                            <span style="color:red">@this.ErrorMessage</span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</EditForm>
