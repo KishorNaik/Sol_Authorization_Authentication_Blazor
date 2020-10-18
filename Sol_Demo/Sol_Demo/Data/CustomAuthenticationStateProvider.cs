@@ -19,6 +19,17 @@ namespace Sol_Demo.Data
             this.sessionStorageService = sessionStorageService;
         }
 
+        private ClaimsIdentity GetClaimsIdentity(UserModel userModel)
+        {
+            ClaimsIdentity claimsIdentity;
+            List<Claim> claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.Name, userModel.EmailId));
+            claims.Add(new Claim(ClaimTypes.Role, userModel.Role));
+
+            claimsIdentity = new ClaimsIdentity(claims, "apiauth_type");
+            return claimsIdentity;
+        }
+
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             ClaimsIdentity claimsIdentity = null;
@@ -27,12 +38,7 @@ namespace Sol_Demo.Data
             if (sessionUserModel != null)
             {
                 var userModel = JsonConvert.DeserializeObject<UserModel>(sessionUserModel);
-
-                List<Claim> claims = new List<Claim>();
-                claims.Add(new Claim(ClaimTypes.Name, userModel.EmailId));
-                claims.Add(new Claim(ClaimTypes.Role, userModel.Role));
-
-                claimsIdentity = new ClaimsIdentity(claims, "apiauth_type");
+                claimsIdentity = GetClaimsIdentity(userModel);
             }
             else
             {
@@ -46,13 +52,9 @@ namespace Sol_Demo.Data
 
         public void MarkUserAsAuthenticated(UserModel userModel)
         {
-            List<Claim> claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.Name, userModel.EmailId));
-            claims.Add(new Claim(ClaimTypes.Role, userModel.Role));
+            var claimsIdentity = GetClaimsIdentity(userModel);
 
-            var identity = new ClaimsIdentity(claims, "apiauth_type");
-
-            var user = new ClaimsPrincipal(identity);
+            var user = new ClaimsPrincipal(claimsIdentity);
 
             base.NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
         }
